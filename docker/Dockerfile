@@ -15,4 +15,4 @@ COPY ./public /var/www/html/public
 EXPOSE 80
 
 # 在前台运行nginx， 确保容器不会在启动后退出
-CMD ["nginx", "-g", "deamon off;"]
+CMD ["nginx", "-g", "daemon off;"]
