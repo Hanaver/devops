@@ -5,8 +5,8 @@ services:
     build:
       context: .
       dockerfile: Dockerfile
-    volumes:
-      - .:/var/www/html
+#    volumes:
+#      - .:/var/www/html
     networks:
       - devops-network
 
@@ -16,8 +16,8 @@ services:
       dockerfile: ./docker/Dockerfile
     ports:
       - "8080:80"
-    volumes:
-      - .:/var/www/html
+#    volumes:
+#      - .:/var/www/html
     depends_on:
       - php-app
     networks:
