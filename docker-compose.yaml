@@ -39,6 +39,21 @@ services:
     networks:
       - devops-network
 
+  devops-init:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    depends_on:
+      - mysql-db
+    networks:
+      - devops-network
+    command: >
+      sh -c "
+        sleep 10 &&
+        php artisan key:generate &&
+        php artisan config:clear &&
+        php artisan migrate --force
+      "
 volumes:
   db-data:
 
