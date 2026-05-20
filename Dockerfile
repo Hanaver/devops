@@ -21,8 +21,10 @@ RUN composer install --no-dev --optimize-autoloader --no-scripts
 COPY . .
 
 # 7. 【新增】代码复制完成后，手动补上 Laravel 的扩展包发现和性能优化脚本
-RUN php artisan package:discover --ansi \
-    && php artisan optimize
+RUN php artisan package:discover --ansi && php artisan optimize
+
+# 初始化项目
+RUN php artisan key:generate && php artisan config:clear
 
 # 8. 修改目录权限确保 Nginx/PHP-FPM 有权读写
 RUN chown -R www-data:www-data /var/www/html/storage /var/www/html/bootstrap/cache
