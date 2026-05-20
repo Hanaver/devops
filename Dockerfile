@@ -5,11 +5,23 @@ FROM php:8.5-fpm
 RUN apt-get update && apt-get install -y libzip-dev zip unzip \
     && docker-php-ext-install pdo_mysql zip
 
-# 3. 将你的 PHP 应用代码复制到容器中 [3]
-COPY . /var/www/html/
+COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
 
-# 4. 修改目录权限确保 Web 服务器可以读写 storage 和 cache 目录 (此为基于实战经验的补充)
+# 3. 容器启动目录
+WORKDIR /var/www/html/
+
+# 4. 【关键步骤】先复制 composer.json 和 composer.lock
+COPY composer.json composer.lock ./
+
+# 5. 【执行命令】使用 RUN 在构建镜像时执行依赖安装
+# 这里使用了资料中推荐的生产环境优化参数 [3]
+RUN composer install --no-dev --optimize-autoloader
+
+# 6. 将其余的业务代码复制到容器中
+COPY . .
+
+# 7. 修改目录权限确保 Nginx/PHP-FPM 有权读写
 RUN chown -R www-data:www-data /var/www/html/storage /var/www/html/bootstrap/cache
 
-# 5. 暴露 9000 端口供外部访问
+# 8. 暴露 9000 端口供外部访问
 EXPOSE 9000
