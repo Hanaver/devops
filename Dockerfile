@@ -1,5 +1,5 @@
 # 1. 选择 PHP 基础镜像
-FROM php:8.5-fpm
+FROM php:8.3-fpm
 
 # 2. 安装 Laravel 所需的系统依赖和 PHP 扩展 (此为基于实战经验的补充)
 RUN apt-get update && apt-get install -y libzip-dev zip unzip \
