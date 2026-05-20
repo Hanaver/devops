@@ -1,0 +1,19 @@
+includes:
+  # 引入 Larastan 扩展，让 PHPStan 理解 Laravel 的核心机制
+  - vendor\larastan\larastan\extension.neon
+
+parameters:
+  # PHPStan 提供了 0-9 的渐进式严格级别。对于一个刚引入的新 Laravel 项目，建议从 level 0 开始，然后在 CI 流水线中逐步提升级别 [2]。
+  level: 5
+
+  # 指定需要进行静态分析的代码目录
+  paths:
+    - app
+    - tests
+  excludePaths:
+    - storage/*
+    - boostrap/cache/*
+
+# 注册项目自定义的静态分析规则
+rules:
+  - App\Rules\RequireCarbonImmutableRule

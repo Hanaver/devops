@@ -1,0 +1,29 @@
+version: '3.8'
+
+services:
+  php-app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    volumes:
+      - .:/var/www/html
+    networks:
+      - devops-network
+
+  nginx-server:
+    build:
+      context: .
+      dockerfile: ./docker/Dockerfile
+    ports:
+      - "8080:80"
+    volumes:
+      - .:/var/www/html
+    depends_on:
+      - php-app
+    networks:
+      - devops-network
+
+networks:
+  devops-network:
+    driver: bridge
+
