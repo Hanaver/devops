@@ -6,6 +6,6 @@ class IndexController
 {
     public function index(): int
     {
-        return 'nihao';
+        return 10;
     }
 }
