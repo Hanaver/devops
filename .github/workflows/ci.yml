@@ -1,0 +1,40 @@
+name: Laravel CI/CD Pipeine
+
+# 触发器：当有代码推送到仓库，或者有 Pull Request 时自动运行
+on: ["push", "pull_request"]
+
+jobs:
+  # 阶段 1：静态代码分析与测试
+  test:
+    name: Static Analysis (PHPSton)
+    runs-on: ubuntu-latest
+    steps:
+      - name: Chechout Code
+        uses: actions/checkout@v4  # 使用 v4 版本以避免旧版 Node.js 弃用警告
+
+      - name: Setup PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: '8.3'       # 锁定我们在 Dockerfile 中使用的稳定 PHP 版本
+
+      - name: Install Dependencies
+        run: composer install --no-dev --optimize-autoloader --no-scripts
+
+      - name: Run PHPStan
+        run: vendor/bin/phpston analyse app
+
+    # 阶段 2：Docker 镜像构建
+    build:
+      name: Build Docker Images
+      needs: test
+      runs-on: ubuntu-latest
+      steps:
+        - name: Checkout code
+          uses: actions/checkout@v4
+
+        - name: Build PHP App Image
+          run: docker build -t php-app:latest -f Dockerfile .
+
+        - name: Build Nginx App Image
+          run: docker build -t nginx-app:latest -f ./docker/Dockerfile .
+
