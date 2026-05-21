@@ -24,17 +24,17 @@ jobs:
         run: vendor/bin/phpston analyse app
 
     # 阶段 2：Docker 镜像构建
-    build:
-      name: Build Docker Images
-      needs: test
-      runs-on: ubuntu-latest
-      steps:
-        - name: Checkout code
-          uses: actions/checkout@v4
+  build:
+    name: Build Docker Images
+    needs: test
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
 
-        - name: Build PHP App Image
-          run: docker build -t php-app:latest -f Dockerfile .
+      - name: Build PHP App Image
+        run: docker build -t php-app:latest -f Dockerfile .
 
-        - name: Build Nginx App Image
-          run: docker build -t nginx-app:latest -f ./docker/Dockerfile .
+      - name: Build Nginx App Image
+        run: docker build -t nginx-app:latest -f ./docker/Dockerfile .
 
