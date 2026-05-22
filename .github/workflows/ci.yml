@@ -18,7 +18,7 @@ jobs:
           php-version: '8.3'       # 锁定我们在 Dockerfile 中使用的稳定 PHP 版本
 
       - name: Install Dependencies
-        run: composer install --no-dev --optimize-autoloader --no-scripts
+        run: composer install --optimize-autoloader --no-scripts
 
       - name: Run PHPStan
         run: vendor/bin/phpstan analyse app
