@@ -24,7 +24,7 @@ COPY . .
 RUN php artisan package:discover --ansi && php artisan optimize
 
 # 初始化项目
-RUN php artisan key:generate && php artisan config:clear
+# RUN php artisan key:generate && php artisan config:clear
 
 # 8. 修改目录权限确保 Nginx/PHP-FPM 有权读写
 RUN chown -R www-data:www-data /var/www/html/storage /var/www/html/bootstrap/cache
