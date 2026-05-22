@@ -25,16 +25,30 @@ jobs:
 
     # 阶段 2：Docker 镜像构建
   build:
-    name: Build Docker Images
+    name: Build And Push Docker Images
     needs: test
     runs-on: ubuntu-latest
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
 
-      - name: Build PHP App Image
-        run: docker build -t php-app:latest -f Dockerfile .
+      # 新增：安全登录到 Docker Hub
+      - name: Log In to Docker Hub
+        run: echo "${{ secrets.DOCKERHUB_TOKEN }}" | docker login -u "${{ secrets.DOCKERHUB_USERNAME }}" --password-stdin
 
+      # 构建PHP镜像
+      - name: Build PHP App Image
+        run: docker build -t ${{ secrets.DOCKERHUB_USERNAME }}/my-php-app:latest -f Dockerfile .
+
+      # 构建  Nginx 镜像
       - name: Build Nginx App Image
-        run: docker build -t nginx-app:latest -f ./docker/Dockerfile .
+        run: docker build -t ${{ secrets.DOCKERHUB_USERNAME }}/my-nginx-app:latest -f ./docker/Dockerfile .
+
+      # 新增：将构建好的不可变镜像产物推送到云端仓库
+      - name: Push Image to Docker Hub
+        run: |
+          docker push ${{ secrets.DOCKERHUB_USERNAME }}/my-php-app:latest
+          docker push ${{ secrets.DOCKERHUB_USERNAME }}/my-nginx-app:latest
+
+
 
