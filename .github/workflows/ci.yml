@@ -21,7 +21,7 @@ jobs:
         run: composer install --no-dev --optimize-autoloader --no-scripts
 
       - name: Run PHPStan
-        run: vendor/bin/phpston analyse app
+        run: vendor/bin/phpstan analyse app
 
     # 阶段 2：Docker 镜像构建
   build:
