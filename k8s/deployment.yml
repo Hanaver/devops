@@ -17,11 +17,13 @@ spec:
         # 主容器：PHP-FPM
         - name: php-fpm
           image: hanzz168/my-php-app:latest
+          imagePullPolicy: IfNotPresent # <--- 新增这行：如果本地有就绝不去外网拉取
           ports:
             - containerPort: 9000
         # 边车容器 (Sidecar)：Nginx
         - name: nginx
           image: hanzz168/my-nginx-app:latest
+          imagePullPolicy: IfNotPresent
           ports:
             - containerPort: 80
 
