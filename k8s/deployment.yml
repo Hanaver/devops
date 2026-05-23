@@ -20,6 +20,14 @@ spec:
           imagePullPolicy: IfNotPresent # <--- 新增这行：如果本地有就绝不去外网拉取
           ports:
             - containerPort: 9000
+          env:
+            - name: APP_DEBUG
+              value: "true"
+            - name: APP_ENV
+              value: "local"
+            - name: APP_KEY
+              value: "base64:9FIO+cxXoWTzRoG5DagsZbH08bTocIyaYLYTdsx/bMU="
+
         # 边车容器 (Sidecar)：Nginx
         - name: nginx
           image: hanzz168/my-nginx-app:v3
