@@ -1,0 +1,13 @@
+# 服务器路由
+apiVersion: v1
+kind: Service
+metadata:
+  name: laravel-app-service
+spec:
+  type: LoadBalancer  # 在本地 Docker Desktop 中，这会自动映射到你的 localhost
+  selector:
+    app: laravel-web  # 这里必须与 Deployment 中的标签一致，才能准确路由流量
+  ports:
+    - protocol: TCP
+      port: 80
+      targetPort: 80
