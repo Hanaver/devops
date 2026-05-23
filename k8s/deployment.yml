@@ -12,16 +12,16 @@ spec:
     metadata:
       labels:
         app: laravel-app
-      spec:
-        containers:
-          # 主容器：PHP-FPM
-          - name: php-fpm
-            image: hanzz168/my-php-app:latest
-            ports:
-              - containerPort: 9000
-          # 边车容器 (Sidecar)：Nginx
-          - name: nginx
-            image: hanzz168/my-nginx-app:latest
-            ports:
-              - containerPort: 80
+    spec:
+      containers:
+        # 主容器：PHP-FPM
+        - name: php-fpm
+          image: hanzz168/my-php-app:latest
+          ports:
+            - containerPort: 9000
+        # 边车容器 (Sidecar)：Nginx
+        - name: nginx
+          image: hanzz168/my-nginx-app:latest
+          ports:
+            - containerPort: 80
 
