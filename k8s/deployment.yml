@@ -22,7 +22,7 @@ spec:
             - containerPort: 9000
         # 边车容器 (Sidecar)：Nginx
         - name: nginx
-          image: hanzz168/my-nginx-app:latest
+          image: hanzz168/my-nginx-app:v2
           imagePullPolicy: IfNotPresent
           ports:
             - containerPort: 80
